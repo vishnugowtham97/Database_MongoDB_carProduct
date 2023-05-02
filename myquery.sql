@@ -34,7 +34,6 @@ Query:db.car_products.find({product_material: /soft/i});
 
 Query:db.car_products.find({product_color: "indigo", product_price: {$gte: 492.00}});
 
-
 10.<-----Delete the products which product price value are same
 
 Query:
