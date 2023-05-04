@@ -36,4 +36,13 @@ Query:db.car_products.find({product_color: "indigo", product_price: {$gte: 492.0
 
 10.<-----Delete the products which product price value are same
 
-Query:
+Query:db.car_product.aggregate([
+  { $group: { _id: { product_price: "$product_price" }, ids: { $addToSet: "$_id" }, count: { $sum: 1 } } },
+  { $match: { count: { $gt: 1 } } },
+  { $unwind: "$ids" },
+  { $group: { _id: "$ids", count: { $sum: 1 } } },
+  { $match: { count: { $gt: 1 } } }
+]).forEach(function(doc) {
+  db.car_product.remove({ _id: doc._id });
+});
+
